@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getRole } from "../actions";
+// import { getRole } from "../actions";
 import { getRoles } from "../api";
 import "./sign.css";
 
@@ -9,14 +9,11 @@ function Signup() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  //   const [role, setRole] = useState("");
-  //   const roleList = useSelector((state) => state.PollingReducer.roleList);
   const dispatch = useDispatch();
-  //   const handleAddRole = () => {
-  //     if (role !== "") dispatch(addRole(role));
-  //     setRole("");
-  //   };
-  const roles = useSelector((state) => state.pollingReducer.roleList);
+  const [selectedRole, setSelectedRole] = useState("");
+
+  const roleList = useSelector((state) => state.pollingReducer.roleList);
+  const roles = Object.values(roleList);
 
   useEffect(() => {
     console.log("roles", roles);
@@ -69,22 +66,22 @@ function Signup() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        {/* <label htmlFor="role">
+        <label htmlFor="role">
           Role:
           <select
             id="role"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-             >
+            value={selectedRole}
+            onChange={(e) => setSelectedRole(e.target.value)}
+          >
             <option value="">Select a role</option>
-            {roleList.map((item) => (
-              <option key={item} value={item}>
-                {item}
+            {roles.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
               </option>
             ))}
           </select>
-        </label >
-        <button onClick={handleAddRole}>Add Role</button> */}
+        </label>
+        <button type="submit">Submit</button>
       </div>
     </div>
   );

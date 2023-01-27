@@ -1,7 +1,6 @@
 const initialData = {
   roleList: [],
 };
-
 const pollingReducer = (state = initialData, action) => {
   switch (action.type) {
     case "GET_ROLE":
