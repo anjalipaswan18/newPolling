@@ -4,3 +4,9 @@ export const getRole = (role) => {
     payload: role,
   };
 };
+export const signUpData = (user) => {
+  return {
+    type: "GET_USER",
+    payload: user,
+  };
+};
