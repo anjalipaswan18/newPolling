@@ -1,8 +1,8 @@
 .signup-main-comtainer {
-  display: flex;
+  /* display: flex;
   justify-items: center;
   text-align: center;
-  justify-content: center;
+  justify-content: center; */
   width: 100%;
   background-color: white;
   margin-top: 5px;
@@ -16,7 +16,9 @@
   justify-content: center;
   margin-top: 50px;
   background-color: lightskyblue;
-  /* width: 30%; */
   height: 50%;
   gap: 15px;
+}
+.error-message {
+  color: red;
 }
