@@ -10,3 +10,9 @@ export const signUpData = (user) => {
     payload: user,
   };
 };
+export const loginData = (userlogin) => {
+  return {
+    type: "GET_USER_LOGIN",
+    payload: userlogin,
+  };
+};

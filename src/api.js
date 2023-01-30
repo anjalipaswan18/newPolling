@@ -1,5 +1,4 @@
 import { getRole } from "./actions";
-// import { signUp } from "./actions";
 import axios from "axios";
 export const getRoles = async (dispatch) => {
   try {
@@ -24,6 +23,20 @@ export const signUpData = async (dispatch, user) => {
       }
     );
     dispatch(signUpData(response.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const loginData = async (dispatch, userlogin) => {
+  try {
+    const response = await axios.post(
+      "https://pollapi.innotechteam.in/user/login",
+      {
+        email: userlogin.email,
+        password: userlogin.password,
+      }
+    );
+    dispatch(loginData(response.data));
   } catch (error) {
     console.log(error);
   }

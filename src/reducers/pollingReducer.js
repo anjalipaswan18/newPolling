@@ -1,6 +1,7 @@
 const initialData = {
   roleList: [],
   userList: [],
+  userlogin: [],
 };
 const pollingReducer = (state = initialData, action) => {
   switch (action.type) {
@@ -14,6 +15,12 @@ const pollingReducer = (state = initialData, action) => {
         ...state,
         userList: action.payload,
       };
+    case "GET_USER_LOGIN":
+      return {
+        ...state,
+        userlogin: action.payload,
+      };
+
     default:
       return state;
   }
