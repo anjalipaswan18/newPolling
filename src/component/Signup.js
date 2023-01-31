@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getRoles, signUpData } from "../api";
+import Popup from "./Popup";
 import "./sign.css";
 function Signup() {
+  // const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [showPopup, setShowPopup] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -11,6 +14,13 @@ function Signup() {
   const [selectedRole, setSelectedRole] = useState("");
   const roleList = useSelector((state) => state.pollingReducer.roleList);
   const roles = Object.values(roleList);
+  const user = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    selectedRole: "",
+  };
   const dispatch = useDispatch();
   useEffect(() => {
     getRoles(dispatch);
@@ -20,6 +30,13 @@ function Signup() {
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const handleSubmit = (event) => {
     event.preventDefault();
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.password = password;
+    user.email = email;
+    user.selectedRole = selectedRole;
+    setError("");
+
     if (!firstName || !lastName || !email || !password || !selectedRole) {
       setError("All fields are required.");
       return;
@@ -28,8 +45,8 @@ function Signup() {
       setError("First name is required.");
       return;
     }
-    if (!lastName) {
-      setError("Last name is required.");
+    if (lastName.length < 4) {
+      setError("Last name must be 4 charactor ");
       return;
     }
     if (!emailRegex.test(email)) {
@@ -45,41 +62,47 @@ function Signup() {
       return;
     }
     registeredEmails.push(email);
-    signUpData(dispatch, {
-      firstName,
-      lastName,
-      email,
-      password,
-      selectedRole,
-    });
+    signUpData(dispatch, user);
+    setShowPopup(true);
   };
+  // const successMessage = () => {
+  //   return (
+  //     <div
+  //       className="success"
+  //       style={{
+  //         display: submitted ? "" : "none",
+  //       }}
+  //     >
+  //       <h1>User successfully registered!!</h1>
+  //     </div>
+  //   );
+  // };
 
   return (
     <div className="signup-form-container">
       <form className="signup-form" onSubmit={handleSubmit}>
         <div className="signup-form-content">
           <h3 className="signup-form-title">Sign In</h3>
+          {/* {successMessage()} */}
           <div className="form-group mt-3">
-            <label htmlFor="firstName">
-              First Name:
-              <input
-                type="text"
-                id="firstName"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-            </label>
+            <label htmlFor="firstName">First Name:</label>
+            <input
+              type="text"
+              id="firstName"
+              value={firstName}
+              required
+              onChange={(e) => setFirstName(e.target.value)}
+            />
           </div>
           <div className="form-group mt-3">
-            <label htmlFor="lastNmae">
-              Last Name:
-              <input
-                type="text"
-                id="lastName"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </label>
+            <label htmlFor="lastNmae">Last Name:</label>
+            <input
+              type="text"
+              id="lastName"
+              value={lastName}
+              required
+              onChange={(e) => setLastName(e.target.value)}
+            />
           </div>
           <div className="form-group mt-3">
             <label htmlFor="email">
@@ -123,10 +146,8 @@ function Signup() {
             <button type="submit" className="btn btn-primary">
               Submit
             </button>
-            <button type="login" className="btn-primary">
-              Login
-            </button>
           </div>
+          {showPopup === true && <Popup />}
         </div>
       </form>
     </div>

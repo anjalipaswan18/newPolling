@@ -2,6 +2,7 @@ const initialData = {
   roleList: [],
   userList: [],
   userlogin: [],
+  loginErr: null,
 };
 const pollingReducer = (state = initialData, action) => {
   switch (action.type) {

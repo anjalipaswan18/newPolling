@@ -12,17 +12,14 @@ export const getRoles = async (dispatch) => {
 };
 export const signUpData = async (dispatch, user) => {
   try {
-    const response = await axios.post(
-      "https://pollapi.innotechteam.in/user/register",
-      {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        password: user.password,
-        roleId: parseInt(user.selectedRole),
-      }
-    );
-    dispatch(signUpData(response.data));
+    await axios.post("https://pollapi.innotechteam.in/user/register", {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      password: user.password,
+      roleId: parseInt(user.selectedRole),
+    });
+    // dispatch(signUpData(response.data));
   } catch (error) {
     console.log(error);
   }
@@ -38,6 +35,6 @@ export const loginData = async (dispatch, userlogin) => {
     );
     dispatch(loginData(response.data));
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.message);
   }
 };

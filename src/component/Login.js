@@ -1,32 +1,32 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginData } from "../api";
 import "./login.css";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
-  const emailRegex =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (!email || !password) {
       setError("All fields are required.");
       return;
     }
-    if (!emailRegex.test(email)) {
-      setError("Invalid email address.");
-      return;
+    try {
+      const response = await loginData(dispatch, {
+        email,
+        password,
+      });
+      if (response.data) {
+        setError(response.data);
+      } else {
+        dispatch(loginData(response.data));
+      }
+    } catch (error) {
+      console.error(error);
     }
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters long.");
-      return;
-    }
-    loginData(dispatch, {
-      email,
-      password,
-    });
   };
   return (
     <div className="login-form-container">
@@ -66,4 +66,5 @@ function Login() {
     </div>
   );
 }
+
 export default Login;
