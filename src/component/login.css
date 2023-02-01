@@ -2,16 +2,15 @@
   background-color: white;
 }
 
-.signup-form-container {
+.login-form-container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100vw;
-  /* height: 100vh; */
-  margin-top: 80px;
+  margin-top: 100px;
 }
 
-.signup-form {
+.login-form {
   width: 420px;
   box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
   padding-top: 30px;
@@ -20,12 +19,12 @@
   background-color: white;
 }
 
-.signup-form-content {
+.login-form-content {
   padding-left: 12%;
   padding-right: 12%;
 }
 
-.signup-form-title {
+.login-form-title {
   text-align: center;
   margin-bottom: 1em;
   font-size: 24px;
@@ -40,7 +39,4 @@ label {
 }
 .error-message {
   color: red;
-}
-.role-btn {
-  width: 100px;
 }
