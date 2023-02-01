@@ -5,7 +5,7 @@ import Popup from "./Popup";
 import "./sign.css";
 function Signup() {
   // const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const [showPopup, setShowPopup] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -13,6 +13,10 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
   const roleList = useSelector((state) => state.pollingReducer.roleList);
+  const [error, setError] = useState("");
+  const storeError = useSelector((state) => state.pollingReducer.error);
+  const storeUser = useSelector((state) => state.pollingReducer.user);
+
   const roles = Object.values(roleList);
   const user = {
     firstName: "",
@@ -63,27 +67,25 @@ function Signup() {
     }
     registeredEmails.push(email);
     signUpData(dispatch, user);
-    setShowPopup(true);
   };
-  // const successMessage = () => {
-  //   return (
-  //     <div
-  //       className="success"
-  //       style={{
-  //         display: submitted ? "" : "none",
-  //       }}
-  //     >
-  //       <h1>User successfully registered!!</h1>
-  //     </div>
-  //   );
-  // };
+  useEffect(() => {
+    // console.log(storeError);
+    setError(storeError);
+  }, [storeError]);
+  useEffect(() => {
+    // console.log(storeUser);
+    if (storeUser) {
+      setShowPopup(true);
+    } else {
+      setShowPopup(false);
+    }
+  }, [storeUser]);
 
   return (
     <div className="signup-form-container">
       <form className="signup-form" onSubmit={handleSubmit}>
         <div className="signup-form-content">
           <h3 className="signup-form-title">Sign In</h3>
-          {/* {successMessage()} */}
           <div className="form-group mt-3">
             <label htmlFor="firstName">First Name:</label>
             <input

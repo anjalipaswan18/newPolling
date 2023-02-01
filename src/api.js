@@ -1,5 +1,6 @@
 import { getRole } from "./actions";
 import axios from "axios";
+
 export const getRoles = async (dispatch) => {
   try {
     const response = await axios.get(
@@ -10,18 +11,29 @@ export const getRoles = async (dispatch) => {
     console.log(error);
   }
 };
+
 export const signUpData = async (dispatch, user) => {
   try {
-    await axios.post("https://pollapi.innotechteam.in/user/register", {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      password: user.password,
-      roleId: parseInt(user.selectedRole),
+    const res = await axios.post(
+      "https://pollapi.innotechteam.in/user/register",
+      {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        password: user.password,
+        roleId: parseInt(user.selectedRole),
+      }
+    );
+    console.log(res);
+    dispatch({
+      type: "SIGNUP_SUCCESS",
+      payload: res.data.response,
     });
-    // dispatch(signUpData(response.data));
   } catch (error) {
-    console.log(error);
+    dispatch({
+      type: "SIGNUP_FAILURE",
+      payload: error.response.data,
+    });
   }
 };
 export const loginData = async (dispatch, userlogin) => {
@@ -33,8 +45,10 @@ export const loginData = async (dispatch, userlogin) => {
         password: userlogin.password,
       }
     );
-    dispatch(loginData(response.data));
+    console.log(response);
+    dispatch({ type: "GET_LOGIN_SUCCESS", payload: response.data });
   } catch (error) {
-    console.log(error.response.data.message);
+    console.log(error);
+    dispatch({ type: "GET_LOGIN_ERROR", payload: error.response.data.message });
   }
 };

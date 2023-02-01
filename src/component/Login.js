@@ -1,33 +1,44 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { loginData } from "../api";
 import "./login.css";
-
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const storeError = useSelector((state) => state.pollingReducer.loginErrer);
+  const storeUserlogin = useSelector((state) => state.pollingReducer.userlogin);
   const dispatch = useDispatch();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!email || !password) {
+    setError("");
+    if (email && password) {
+      try {
+        setError("");
+        await loginData(dispatch, {
+          email,
+          password,
+        });
+        if (storeError) {
+          setError(storeError);
+        }
+      } catch (error) {
+        console.log(error, storeError);
+      }
+    } else {
       setError("All fields are required.");
       return;
     }
-    try {
-      const response = await loginData(dispatch, {
-        email,
-        password,
-      });
-      if (response.data) {
-        setError(response.data);
-      } else {
-        dispatch(loginData(response.data));
-      }
-    } catch (error) {
-      console.error(error);
-    }
   };
+  useEffect(() => {
+    setError(storeError);
+  }, [storeError]);
+  useEffect(() => {
+    if (storeUserlogin) {
+    }
+  }, [storeUserlogin]);
+
   return (
     <div className="login-form-container">
       <form className="login-form" onSubmit={handleSubmit}>
@@ -59,12 +70,11 @@ function Login() {
             <button type="submit" className="btn btn-primary">
               Submit
             </button>
-            {error !== "" && <p className="error-message">{error}</p>}
+            {error && <p className="error-message">{error}</p>}
           </div>
         </div>
       </form>
     </div>
   );
 }
-
 export default Login;

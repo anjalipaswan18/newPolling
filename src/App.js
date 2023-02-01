@@ -15,12 +15,7 @@ const App = () => {
         <Container>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              {" "}
-              <h1 bg="light" variant="light">
-                POLLING SYSTEM
-              </h1>
-            </Nav>
+            <Nav className="me-auto"></Nav>
             <Button as={Link} to="/Signup" variant="outline-success">
               Signup
             </Button>
